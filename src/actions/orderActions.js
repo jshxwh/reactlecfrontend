@@ -134,11 +134,11 @@ export const updateOrder = (id, orderData) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.put(
       `${process.env.REACT_APP_API}/api/v1/admin/order/${id}`,
-      { withCredentials: true },
       orderData,
       config
     );

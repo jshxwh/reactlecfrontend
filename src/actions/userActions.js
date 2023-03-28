@@ -47,6 +47,7 @@ export const login = (email, password) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.post(
@@ -77,6 +78,7 @@ export const register = (userData) => async (dispatch) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.post(
@@ -101,7 +103,9 @@ export const register = (userData) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await axios.get(`${process.env.REACT_APP_API}/api/v1/logout`);
+    await axios.get(`${process.env.REACT_APP_API}/api/v1/logout`, {
+      withCredentials: true,
+    });
 
     dispatch({
       type: LOGOUT_SUCCESS,
@@ -118,7 +122,9 @@ export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/me`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/me`, {
+      withCredentials: true,
+    });
 
     dispatch({
       type: LOAD_USER_SUCCESS,
@@ -142,6 +148,7 @@ export const updateProfile = (userData) => async (dispatch) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.put(
@@ -172,6 +179,7 @@ export const updatePassword = (passwords) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.put(
@@ -202,6 +210,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.put(
@@ -232,6 +241,7 @@ export const forgotPassword = (email) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.post(
@@ -291,11 +301,11 @@ export const updateUser = (id, userData) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.put(
       `${process.env.REACT_APP_API}/api/v1/admin/user/${id}`,
-      { withCredentials: true },
       userData,
       config
     );

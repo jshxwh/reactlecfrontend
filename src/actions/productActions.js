@@ -69,11 +69,11 @@ export const updateProduct = (id, productData) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.put(
       `${process.env.REACT_APP_API}/api/v1/admin/product/${id}`,
-      { withCredentials: true },
       productData,
       config
     );
@@ -97,7 +97,8 @@ export const getProductDetails = (id) => async (dispatch) => {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API}/api/v1/product/${id}`
+      `${process.env.REACT_APP_API}/api/v1/product/${id}`,
+      { withCredentials: true }
     );
 
     dispatch({
@@ -126,6 +127,7 @@ export const newReview = (reviewData) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.put(
@@ -179,11 +181,11 @@ export const newProduct = (productData) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.post(
       `${process.env.REACT_APP_API}/api/v1/admin/product/new`,
-      { withCredentials: true },
       productData,
       config
     );
@@ -230,7 +232,8 @@ export const getProductReviews = (id) => async (dispatch) => {
     dispatch({ type: GET_REVIEWS_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API}/api/v1/reviews?id=${id}`
+      `${process.env.REACT_APP_API}/api/v1/reviews?id=${id}`,
+      { withCredentials: true }
     );
 
     dispatch({
@@ -252,7 +255,8 @@ export const deleteReview = (id, productId) => async (dispatch) => {
     dispatch({ type: DELETE_REVIEW_REQUEST });
 
     const { data } = await axios.delete(
-      `${process.env.REACT_APP_API}/api/v1/reviews?id=${id}&productId=${productId}`
+      `${process.env.REACT_APP_API}/api/v1/reviews?id=${id}&productId=${productId}`,
+      { withCredentials: true }
     );
 
     dispatch({

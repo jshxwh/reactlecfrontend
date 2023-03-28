@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Toast = (message, type) => {
   switch (type) {
@@ -8,27 +8,24 @@ const Toast = (message, type) => {
       return toast.success(
         <div>
           <p>{message}</p>
-        </div>,
-        {
-          position: toast.POSITION.BOTTOM_CENTER,
+        </div>,{
+            position: toast.POSITION.BOTTOM_CENTER
         }
       );
     case "error":
       return toast.error(
         <div>
           <p>{message}</p>
-        </div>,
-        {
-          position: toast.POSITION.BOTTOM_CENTER,
+        </div>, {
+            position: toast.POSITION.BOTTOM_CENTER
         }
       );
     case "warning":
       return toast.warning(
         <div>
           <p>{message}</p>
-        </div>,
-        {
-          position: toast.POSITION.BOTTOM_CENTER,
+        </div>, {
+            position: toast.POSITION.BOTTOM_CENTER
         }
       );
     default:

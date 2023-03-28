@@ -1,131 +1,99 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import Loader from '../layout/Loader'
+import MetaData from '../layout/MetaData'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import Loader from "../layout/Loader";
-
-import MetaData from "../layout/MetaData";
-
-import { useDispatch, useSelector } from "react-redux";
-
-import { login, clearErrors } from "../../actions/userActions";
-
-import { toast } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from 'react-redux'
+import { login, clearErrors } from '../../actions/userActions'
 
 const Login = () => {
-  const [email, setEmail] = useState("");
 
-  const [password, setPassword] = useState("");
-
-  const dispatch = useDispatch();
-
-  let navigate = useNavigate();
-
-  let location = useLocation();
-
-  // const redirect = location.search ? location.search.split("=")[1] : "/";
-
-  const redirect = location.search
-    ? new URLSearchParams(location.search).get("redirect")
-    : "";
-
-  const { isAuthenticated, error, loading } = useSelector(
-    (state) => state.auth
-  );
-
-  const notify = (message = "") =>
-    toast.error(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+    let location = useLocation();
+    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
+    // const redirect = location.search ? location.search.split('=')[1] : ''
+    const redirect = new URLSearchParams(location.search).get('redirect')
+    const notify = (error = '') => toast.error(error, {
+        position: toast.POSITION.BOTTOM_CENTER
     });
+    useEffect(() => {
+        if (isAuthenticated && redirect === 'shipping') {
+            navigate(`/${redirect}`, { replace: true })
+        }
+        else if (isAuthenticated)
+            navigate('/')
+        if (error) {
+           
+            console.log(error)
+            notify(error)
+            dispatch(clearErrors());
+        }
 
-  useEffect(() => {
-    if (isAuthenticated && redirect === "shipping") {
-      // navigate(redirect.get('redirect'), {replace: true})
+    }, [dispatch, isAuthenticated, error, navigate, redirect])
 
-      navigate(`/${redirect}`, { replace: true });
-    } else if (isAuthenticated) navigate("/");
-
-    if (error) {
-      notify(error);
-
-      dispatch(clearErrors());
+    const submitHandler = (e) => {
+        e.preventDefault();
+        dispatch(login(email, password))
     }
-  }, [dispatch, isAuthenticated, error, navigate, redirect]);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    dispatch(login(email, password));
-  };
-
-  return (
-    <Fragment>
-      {loading ? (
-        <Loader />
-      ) : (
+    return (
         <Fragment>
-          <MetaData title={"Login"} />
+            {loading ? <Loader /> : (
+                <Fragment>
+                    <MetaData title={'Login'} />
 
-          <div className="row wrapper">
-            <div className="col-10 col-lg-5">
-              <form className="shadow-lg" onSubmit={submitHandler}>
-                <h1 className="mb-3">Login</h1>
+                    <div className="row wrapper">
+                        <div className="col-10 col-lg-5">
+                            <form className="shadow-lg" onSubmit={submitHandler}>
+                                <h1 className="mb-3">Login</h1>
+                                <div className="form-group">
+                                    <label htmlFor="email_field">Email</label>
+                                    <input
+                                        type="email"
+                                        id="email_field"
+                                        className="form-control"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                </div>
 
-                <div className="form-group">
-                  <label htmlFor="email_field">Email</label>
+                                <div className="form-group">
+                                    <label htmlFor="password_field">Password</label>
+                                    <input
+                                        type="password"
+                                        id="password_field"
+                                        className="form-control"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                </div>
 
-                  <input
-                    type="email"
-                    id="email_field"
-                    className="form-control"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
+                                <Link to="/password/forgot" className="float-right mb-4">Forgot Password?</Link>
 
-                <div className="form-group">
-                  <label htmlFor="password_field">Password</label>
+                                <button
+                                    id="login_button"
+                                    type="submit"
+                                    className="btn btn-block py-3"
+                                >
+                                    LOGIN
+                                </button>
 
-                  <input
-                    type="password"
-                    id="password_field"
-                    className="form-control"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
+                                <Link to="/register" className="float-right mt-3">New User?</Link>
+                            </form>
+                        </div>
+                    </div>
 
-                <Link to="/password/forgot" className="float-right mb-4">
-                  Forgot Password?
-                </Link>
 
-                <button
-                  id="login_button"
-                  type="submit"
-                  className="btn btn-block py-3"
-                >
-                  LOGIN
-                </button>
-
-                <Link to="/register" className="float-right mt-3">
-                  New User?
-                </Link>
-              </form>
-            </div>
-          </div>
+                </Fragment>
+            )}
         </Fragment>
-      )}
-    </Fragment>
-  );
-};
+    )
+}
 
-export default Login;
+export default Login

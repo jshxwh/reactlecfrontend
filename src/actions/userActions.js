@@ -52,6 +52,7 @@ export const login = (email, password) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
 
     const { data } = await axios.post(
@@ -103,9 +104,6 @@ export const loadUser = () => async (dispatch) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*",
       },
       withCredentials: true,
     };
